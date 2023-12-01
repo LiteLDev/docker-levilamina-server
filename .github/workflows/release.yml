@@ -1,0 +1,42 @@
+on:
+  release:
+    types: 
+      - published
+
+env:
+  VERSION: 0.0.0
+
+jobs:
+  publish-docker-image:
+    permissions:
+      packages: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trim prefix v from version string
+        run: |
+          echo "VERSION=${{ github.ref_name }}" | sed 's/=v/=/' >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Docker image (prerelease)
+        uses: docker/build-push-action@v5
+        if: ${{ github.event.release.prerelease }}
+        with:
+          push: true
+          tags: |
+            ghcr.io/liteldev/liteloaderbds-server:${{ env.VERSION }}
+
+      - name: Publish Docker image (release)
+        uses: docker/build-push-action@v5
+        if: ${{ !github.event.release.prerelease }}
+        with:
+          push: true
+          tags: |
+            ghcr.io/liteldev/liteloaderbds-server:${{ env.VERSION }}
+            ghcr.io/liteldev/liteloaderbds-server:latest
