@@ -30,7 +30,7 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/liteldev/liteloaderbds-server:${{ env.VERSION }}
+            ghcr.io/liteldev/levilamina-server:${{ env.VERSION }}
 
       - name: Publish Docker image (release)
         uses: docker/build-push-action@v5
@@ -38,5 +38,5 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/liteldev/liteloaderbds-server:${{ env.VERSION }}
-            ghcr.io/liteldev/liteloaderbds-server:latest
+            ghcr.io/liteldev/levilamina-server:${{ env.VERSION }}
+            ghcr.io/liteldev/levilamina-server:latest
