@@ -2,7 +2,6 @@
 
 # Set default values for environment variables
 VERSION="${VERSION:-LATEST}"
-LEVILAMINA_VERSION="${LEVILAMINA_VERSION:-LATEST}"
 PACKAGES="${PACKAGES:-}"
 EULA="${EULA:-FALSE}"
 
@@ -20,20 +19,12 @@ export WINEDEBUG="${WINEDEBUG:--all}"
 # Install dependencies on first run
 # Test if bedrock_server_mod.exe exists
 if [ ! -f "bedrock_server_mod.exe" ]; then
-    # Install BDS
-    if [ "$VERSION" = "LATEST" ]
-    then
-        lip install -y github.com/tooth-hub/bds
-    else
-        lip install -y github.com/tooth-hub/bds@$VERSION
-    fi
-
     # Install LeveLamina
-    if [ "$LEVILAMINA_VERSION" = "LATEST" ]
+    if [ "$VERSION" = "LATEST" ]
     then
         lip install -y github.com/tooth-hub/levilamina
     else
-        lip install -y github.com/tooth-hub/levilamina@$LEVILAMINA_VERSION
+        lip install -y github.com/tooth-hub/levilamina@$VERSION
     fi
 
     # Install packages, line by line
