@@ -18,9 +18,9 @@ services:
     image: ghcr.io/liteldev/levilamina-server
     environment:
       EULA: TRUE
-      VERSION: 0.1.0
+      VERSION: 0.4.2
       PACKAGES: |
-        github.com/tooth-hub/levianticheat@0.1.1
+        github.com/LiteLDev/LeviAntiCheat@0.1.1
     ports:
       - 19132:19132/udp
     volumes:
@@ -37,5 +37,5 @@ volumes:
 ### Environment variables
 
 - `EULA`(`FALSE`): must be set to `TRUE` to accept the [Minecraft End User License Agreement](https://minecraft.net/terms).
-- `VERSION`(`LATEST`): can be set to a specific [LeviLamina](https://github.com/tooth-hub/levilamina/tags) version or `LATEST` to automatically download the latest version.
+- `VERSION`(`LATEST`): can be set to a specific [LeviLamina](https://github.com/LiteLDev/LeviLamina/tags) version or `LATEST` to automatically download the latest version.
 - `PACKAGES`(``): can be set to a list of packages to install on first run. Each package must be a valid [lip specifier](https://docs.lippkg.com/commands/lip_install.html). Both local and remote lip teeth are supported. For local packages, you may need to mount the packages to the container.

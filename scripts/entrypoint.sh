@@ -22,9 +22,9 @@ if [ ! -f "bedrock_server_mod.exe" ]; then
     # Install LeveLamina
     if [ "$VERSION" = "LATEST" ]
     then
-        lip install -y github.com/tooth-hub/levilamina
+        lip install -y github.com/LiteLDev/LeviLamina
     else
-        lip install -y github.com/tooth-hub/levilamina@$VERSION
+        lip install -y github.com/LiteLDev/LeviLamina@$VERSION
     fi
 
     # Install packages, line by line
