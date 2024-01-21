@@ -33,7 +33,7 @@ if [ ! -f "bedrock_server_mod.exe" ]; then
         lip install -y $package
     done
 
-    wine64 PeEditor.exe --pause=false --mod=true
+    ./PeEditor.exe --pause=false --mod=true
 fi
 
-wine64 bedrock_server_mod.exe
+./bedrock_server_mod.exe
