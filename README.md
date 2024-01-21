@@ -1,4 +1,4 @@
-# LeviLamina Server on Docker
+# LeviLamina Server on Windows Docker
 
 A docker image that provides a LeviLamina server that will automatically download selected version at startup 
 
@@ -7,7 +7,7 @@ A docker image that provides a LeviLamina server that will automatically downloa
 The following starts a LeviLamina server running a default version and exposing the default UDP port:
 
 ```sh
-docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server
+docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v C:/levilamina-server-data:C:/data ghcr.io/liteldev/levilamina-server
 ```
 
 If you plan to use the server in production, it is recommended to use Docker Compose to manage the container. You can use the following `compose.yaml` file as a template:
@@ -24,7 +24,7 @@ services:
     ports:
       - 19132:19132/udp
     volumes:
-      - levilamina-server-data:/data
+      - C:/levilamina-server-data:C:/data
     stdin_open: true
     tty: true
 
