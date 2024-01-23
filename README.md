@@ -2,7 +2,7 @@
 
 A docker image that provides a LeviLamina server that will automatically download selected version at startup 
 
-## Install
+## Usage
 
 The following starts a LeviLamina server running a default version and exposing the default UDP port:
 
@@ -31,8 +31,6 @@ services:
 volumes:
   levilamina-server-data:
 ```
-
-## Usage
 
 ### Environment variables
 
