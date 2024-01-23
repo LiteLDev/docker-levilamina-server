@@ -1,8 +1,8 @@
 FROM alpine:latest
 
-COPY scripts /scripts
-RUN ["sh", "/scripts/build.sh"]
-
 WORKDIR /data
-RUN chmod +x /scripts/entrypoint.sh
-ENTRYPOINT [ "/scripts/entrypoint.sh" ]
+
+COPY --chmod=755 scripts/* /usr/local/bin/
+RUN /usr/local/bin/build.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

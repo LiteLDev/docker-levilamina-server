@@ -9,7 +9,7 @@ EULA="${EULA:-FALSE}"
 if [ $(echo "$EULA" | tr '[:lower:]' '[:upper:]') != "TRUE" ]
 then
     echo "You must accept the Minecraft EULA to run the server."
-    echo "Set the environment variable EULA to true to accept it."
+    echo "Set the environment variable EULA to TRUE to accept it."
     exit 1
 fi
 
@@ -22,18 +22,16 @@ if [ ! -f "bedrock_server_mod.exe" ]; then
     # Install LeveLamina
     if [ "$VERSION" = "LATEST" ]
     then
-        lip install -y github.com/LiteLDev/LeviLamina
+        wine64 lip.exe install -y github.com/LiteLDev/LeviLamina
     else
-        lip install -y github.com/LiteLDev/LeviLamina@$VERSION
+        wine64 lip.exe install -y github.com/LiteLDev/LeviLamina@$VERSION
     fi
 
     # Install packages, line by line
     for package in $PACKAGES
     do
-        lip install -y $package
+        wine64 lip.exe install -y $package
     done
-
-    wine64 PeEditor.exe --pause=false --mod=true
 fi
 
 wine64 bedrock_server_mod.exe
