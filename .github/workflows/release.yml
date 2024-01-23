@@ -24,6 +24,9 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
+          flavor: |
+            latest=false
+            suffix=-wine
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - uses: docker/build-push-action@v5
