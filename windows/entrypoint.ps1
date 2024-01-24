@@ -15,6 +15,10 @@ if ($env:EULA.ToUpper() -ne "TRUE") {
 }
 
 if (-not (Test-Path "bedrock_server_mod.exe")) {
+    .\vc_redist.x64.exe /install /quiet /norestart
+    Wait-Process $(Get-Process vc_redist.x64 | Select-Object -ExpandProperty Id)
+    Remove-Item vc_redist.x64.exe
+
     if ($env:VERSION -eq "LATEST") {
         .\lip.exe install -y github.com/LiteLDev/LeviLamina
     }

@@ -28,10 +28,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: docker/setup-qemu-action@v3
-
-      - uses: docker/setup-buildx-action@v3
-
       - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
@@ -46,13 +42,13 @@ jobs:
             suffix=-windows
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - uses: docker/build-push-action@v5
-        with:
-          context: windows
-          labels: ${{ steps.meta.outputs.labels }}
-          platforms: windows/amd64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
+      - run: |
+          docker build windows -t artifact
+
+      - run: |
+          for tag in ${{ steps.meta.outputs.tags }}; do
+            docker tag artifact $tag
+          done
 
   publish-wine:
     permissions:
@@ -78,6 +74,5 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: wine
-          labels: ${{ steps.meta.outputs.labels }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
