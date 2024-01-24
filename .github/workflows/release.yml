@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v1
 
@@ -49,10 +49,10 @@ jobs:
 
       - name: Push to GitHub Packages
         run: |
-          for tag in ${{ steps.meta.outputs.tags }}; do
+          foreach ($tag in -Split ${{ steps.meta.outputs.tags }}) {
             docker tag artifact $tag
             docker push $tag
-          done
+          }
 
   publish-wine:
     permissions:
