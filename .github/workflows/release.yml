@@ -49,15 +49,15 @@ jobs:
 
       - name: Tag image
         run: |
-          docker tag artifact ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
-          docker tag artifact ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-windows
-          docker tag artifact ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-windows
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Push to GitHub Packages
         run: |
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-windows
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
+          docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-windows
+          docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
 
   publish-wine:
     permissions:
@@ -84,5 +84,5 @@ jobs:
           context: wine
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-wine
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-wine
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-wine
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-wine
