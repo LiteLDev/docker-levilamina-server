@@ -49,7 +49,7 @@ jobs:
 
       - name: Push to GitHub Packages
         run: |
-          foreach ($tag in -Split ${{ steps.meta.outputs.tags }}) {
+          foreach ($tag in -Split "${{ steps.meta.outputs.tags }}") {
             docker tag artifact $tag
             docker push $tag
           }
