@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/powershell:lts-windowsservercore-ltsc2022
 
-# USER ContainerAdministrator
+USER root
 
 WORKDIR /data
 
