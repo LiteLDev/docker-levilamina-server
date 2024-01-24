@@ -22,7 +22,7 @@ Linux Container:
 ```yml
 services:
   mc-server:
-    image: ghcr.io/liteldev/levilamina-server-wine
+    image: ghcr.io/liteldev/levilamina-server-windows
     environment:
       EULA: TRUE
       VERSION: 0.4.2
@@ -39,7 +39,7 @@ volumes:
   levilamina-server-data:
 ```
 
-Linux Container:
+Windows Container:
 ```yml
 services:
   mc-server:
