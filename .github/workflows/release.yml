@@ -18,7 +18,6 @@ jobs:
 
       - uses: softprops/action-gh-release@v1
         with:
-          append_body: true
           body: |
             ${{ steps.extract-release-notes.outputs.release_notes }}
 
@@ -43,12 +42,15 @@ jobs:
             suffix=-windows
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - uses: docker/build-push-action@v5
-        with:
-          context: windows
-          labels: ${{ steps.meta.outputs.labels }}
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
+      - run: |
+          docker build windows -t artifact
+
+      - name: Push to GitHub Packages
+        run: |
+          for tag in ${{ steps.meta.outputs.tags }}; do
+            docker tag artifact $tag
+            docker push $tag
+          done
 
   publish-wine:
     permissions:
@@ -74,6 +76,5 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: wine
-          labels: ${{ steps.meta.outputs.labels }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}

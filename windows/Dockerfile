@@ -1,16 +1,12 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
+FROM ghcr.io/futrime/windows-servercore-vcredist:10.0.20348.2227-amd64
 
-USER ContainerAdministrator
+WORKDIR /Users/ContainerUser/data
 
-RUN md "C:\scripts"
-COPY ["scripts/*", "C:/scripts/"]
+ADD https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip /Users/ContainerUser/data/lip-windows-amd64.zip
 
-ENV Path="%Path%;C:/Program Files (x86)/Busybox;C:\Program Files (x86)\Lip"
+RUN tar -x -f lip-windows-amd64.zip -v lip.exe \
+ && del lip-windows-amd64.zip
 
-RUN md "C:\Program Files (x86)\Busybox"
-RUN C:\Windows\System32\curl.exe -o "C:\Program Files (x86)\Busybox\busybox.exe" -L "https://frippery.org/files/busybox/busybox.exe"
+COPY entrypoint.cmd /Users/ContainerUser/AppData/Local/entrypoint.cmd
 
-RUN ["busybox", "bash", "-c", "C:/scripts/build.sh"]
-
-ENTRYPOINT ["busybox", "bash", "-c", "C:/scripts/entrypoint.sh"]
-WORKDIR C:/data
+ENTRYPOINT ["/Users/ContainerUser/AppData/Local/entrypoint.cmd"]
