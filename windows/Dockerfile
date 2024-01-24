@@ -1,16 +1,23 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
+FROM mcr.microsoft.com/powershell:lts-windowsservercore-ltsc2022
 
-USER ContainerAdministrator
+# USER ContainerAdministrator
 
-RUN md "C:\scripts"
-COPY ["scripts/*", "C:/scripts/"]
+WORKDIR /data
 
-ENV Path="%Path%;C:/Program Files (x86)/Busybox;C:\Program Files (x86)\Lip"
+SHELL ["pwsh", "-Command"]
 
-RUN md "C:\Program Files (x86)\Busybox"
-RUN C:\Windows\System32\curl.exe -o "C:\Program Files (x86)\Busybox\busybox.exe" -L "https://frippery.org/files/busybox/busybox.exe"
+# RUN Invoke-WebRequest -Outfile vc_redist.x64.exe https://aka.ms/vs/17/release/vc_redist.x64.exe \
+#  && .\vc_redist.x64.exe /install /quiet /norestart \
+#  && Wait-Process $(Get-Process vc_redist.x64 | Select-Object -ExpandProperty Id) \
+#  && Remove-Item vc_redist.x64.exe
 
-RUN ["busybox", "bash", "-c", "C:/scripts/build.sh"]
+# USER ContainerUser
 
-ENTRYPOINT ["busybox", "bash", "-c", "C:/scripts/entrypoint.sh"]
-WORKDIR C:/data
+RUN Invoke-WebRequest -Outfile lip-windows-amd64.zip https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip \
+ && Expand-Archive lip-windows-amd64.zip lip  \
+ && Move-Item lip\lip.exe . \
+ && Remove-Item -Recurse lip-windows-amd64.zip, lip
+
+COPY entrypoint.ps1 /entrypoint.ps1
+
+ENTRYPOINT ["pwsh", "-Command", "/entrypoint.ps1"]

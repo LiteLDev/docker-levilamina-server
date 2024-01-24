@@ -16,8 +16,8 @@ RUN dpkg --add-architecture i386 \
  && apt install -y --install-recommends winehq-stable \
  && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip \
- && unzip -q lip-windows-amd64.zip lip.exe \
+RUN wget -O lip-windows-amd64.zip https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip \
+ && unzip lip-windows-amd64.zip lip.exe \
  && rm lip-windows-amd64.zip
 
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
