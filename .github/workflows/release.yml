@@ -30,29 +30,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - id: get-version
+        uses: frabert/replace-string-action@v2
+        with:
+          pattern: '^v'
+          string: ${{ github.event.release.tag_name }}
+          replace-with: ''
+
       - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/metadata-action@v5
-        id: meta
-        with:
-          flavor: |
-            latest=true
-            suffix=-windows
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       - run: |
           docker build windows -t artifact
 
+      - name: Tag image
+        run: |
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-windows
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
       - name: Push to GitHub Packages
         run: |
-          foreach ($tag in -Split "${{ steps.meta.outputs.tags }}") {
-            docker tag artifact $tag
-            docker push $tag
-          }
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-windows
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
   publish-wine:
     permissions:
@@ -61,22 +65,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - id: get-version
+        uses: frabert/replace-string-action@v2
+        with:
+          pattern: '^v'
+          string: ${{ github.event.release.tag_name }}
+          replace-with: ''
+
       - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: docker/metadata-action@v5
-        id: meta
-        with:
-          flavor: |
-            latest=false
-            suffix=-wine
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
       - uses: docker/build-push-action@v5
         with:
           context: wine
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-wine
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest-wine
