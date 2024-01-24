@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2022
+FROM ghcr.io/futrime/windows-servercore-vcredist:10.0.20348.2227-amd64
 
 WORKDIR /Users/ContainerUser/data
 
