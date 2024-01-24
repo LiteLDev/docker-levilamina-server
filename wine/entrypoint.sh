@@ -6,8 +6,8 @@ VERSION="${VERSION:-LATEST}"
 
 if [ $(echo "$EULA" | tr '[:lower:]' '[:upper:]') != "TRUE" ]
 then
-    echo "You must accept the Minecraft EULA to run the server."
-    echo "Set the environment variable EULA to TRUE to accept it."
+    echo "You must accept the Minecraft EULA to run the server"
+    echo "Set the environment variable EULA to TRUE to accept it"
     exit 1
 fi
 
