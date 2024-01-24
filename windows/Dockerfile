@@ -2,8 +2,6 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 WORKDIR /data
 
-SHELL ["powershell", "-Command"]
-
 # RUN Invoke-WebRequest -Outfile vc_redist.x64.exe https://aka.ms/vs/17/release/vc_redist.x64.exe \
 #  && .\vc_redist.x64.exe /install /quiet /norestart \
 #  && Wait-Process $(Get-Process vc_redist.x64 | Select-Object -ExpandProperty Id) \
@@ -11,9 +9,8 @@ SHELL ["powershell", "-Command"]
 
 ADD https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip /data/lip-windows-amd64.zip
 
-RUN Expand-Archive lip-windows-amd64.zip lip; \
-    Move-Item lip\lip.exe .; \
-    Remove-Item -Recurse lip-windows-amd64.zip, lip;
+RUN tar -x -f lip-windows-amd64.zip -v lip.exe \
+ && del lip-windows-amd64.zip
 
 COPY entrypoint.ps1 /entrypoint.ps1
 
