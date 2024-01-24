@@ -8,6 +8,48 @@ env:
   IMAGE_NAME: levilamina-server
 
 jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          append_body: true
+          body: |
+            ${{ steps.extract-release-notes.outputs.release_notes }}
+
+  publish-windows:
+    permissions:
+      packages: write
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          flavor: |
+            latest=true
+            suffix=-windows
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: windows
+          labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+
   publish-wine:
     permissions:
       packages: write
@@ -33,6 +75,5 @@ jobs:
         with:
           context: wine
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
