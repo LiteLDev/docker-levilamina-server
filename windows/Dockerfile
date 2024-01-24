@@ -1,4 +1,6 @@
-FROM mcr.microsoft.com/windows/nanoserver:ltsc2022
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
+
+USER ContainerUser
 
 WORKDIR /Users/ContainerUser
 
@@ -12,6 +14,6 @@ ADD https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip
 RUN tar -x -f lip-windows-amd64.zip -v lip.exe \
  && del lip-windows-amd64.zip
 
-COPY entrypoint.ps1 entrypoint.ps1
+COPY entrypoint.ps1 /Users/ContainerUser/entrypoint.ps1
 
-ENTRYPOINT ["powershell", "-Command", "/entrypoint.ps1"]
+ENTRYPOINT ["powershell", "-Command", "/Users/ContainerUser/entrypoint.ps1"]
