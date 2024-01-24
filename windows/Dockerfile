@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/powershell:lts-windowsservercore-ltsc2022
+FROM mcr.microsoft.com/powershell:lts-windowsservercore-ltsc2022@sha:9cc52af77c19
 
 # USER ContainerAdministrator
 
