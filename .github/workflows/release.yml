@@ -5,6 +5,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  NAMESPACE: LiteLDev
   IMAGE_NAME: levilamina-server
 
 jobs:
