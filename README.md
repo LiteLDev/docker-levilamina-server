@@ -6,16 +6,23 @@ A docker image that provides a LeviLamina server that will automatically downloa
 
 The following starts a LeviLamina server running a default version and exposing the default UDP port:
 
+Linux Container:
 ```sh
-docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server
+docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server-wine
+```
+
+Windows Container:
+```sh
+docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v C:/levilamina-server-data:C:/data ghcr.io/liteldev/levilamina-server-windows
 ```
 
 If you plan to use the server in production, it is recommended to use Docker Compose to manage the container. You can use the following `compose.yaml` file as a template:
 
+Linux Container:
 ```yml
 services:
   mc-server:
-    image: ghcr.io/liteldev/levilamina-server
+    image: ghcr.io/liteldev/levilamina-server-wine
     environment:
       EULA: TRUE
       VERSION: 0.4.2
@@ -25,6 +32,27 @@ services:
       - 19132:19132/udp
     volumes:
       - levilamina-server-data:/data
+    stdin_open: true
+    tty: true
+
+volumes:
+  levilamina-server-data:
+```
+
+Linux Container:
+```yml
+services:
+  mc-server:
+    image: ghcr.io/liteldev/levilamina-server-wine
+    environment:
+      EULA: TRUE
+      VERSION: 0.4.2
+      PACKAGES: |
+        github.com/LiteLDev/LeviAntiCheat@0.1.1
+    ports:
+      - 19132:19132/udp
+    volumes:
+      - C:levilamina-server-data:C:/data
     stdin_open: true
     tty: true
 
