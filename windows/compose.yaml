@@ -7,7 +7,7 @@ services:
     ports:
       - 19132:19132/udp
     volumes:
-      - levilamina-server-data:/data
+      - levilamina-server-data:C:\data
     stdin_open: true
     tty: true
 
