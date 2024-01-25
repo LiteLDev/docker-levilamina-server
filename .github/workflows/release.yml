@@ -86,6 +86,9 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-wine
 
   publish-latest-manifest:
+    needs:
+      - publish-windows
+      - publish-wine
     permissions:
       packages: write
     runs-on: ubuntu-latest
@@ -95,6 +98,11 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull images
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-windows
+          docker pull ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-wine
 
       - name: Publish manifest
         run: |

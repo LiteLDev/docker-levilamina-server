@@ -4,61 +4,19 @@ A docker image that provides a LeviLamina server that will automatically downloa
 
 ## Usage
 
-The following starts a LeviLamina server running a default version and exposing the default UDP port:
+To start the server in a Linux container, run the following command:
 
-Linux Container:
 ```sh
-docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server-wine
+docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server:latest-wine
 ```
 
-Windows Container:
+Or, if you want to use a Windows container, run the following command:
+
 ```sh
-docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v C:/levilamina-server-data:C:/data ghcr.io/liteldev/levilamina-server-windows
+docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:C:/data ghcr.io/liteldev/levilamina-server:latest-windows
 ```
 
-If you plan to use the server in production, it is recommended to use Docker Compose to manage the container. You can use the following `compose.yaml` file as a template:
-
-Linux Container:
-```yml
-services:
-  mc-server:
-    image: ghcr.io/liteldev/levilamina-server-windows
-    environment:
-      EULA: TRUE
-      VERSION: 0.4.2
-      PACKAGES: |
-        github.com/LiteLDev/LeviAntiCheat@0.1.1
-    ports:
-      - 19132:19132/udp
-    volumes:
-      - levilamina-server-data:/data
-    stdin_open: true
-    tty: true
-
-volumes:
-  levilamina-server-data:
-```
-
-Windows Container:
-```yml
-services:
-  mc-server:
-    image: ghcr.io/liteldev/levilamina-server-wine
-    environment:
-      EULA: TRUE
-      VERSION: 0.4.2
-      PACKAGES: |
-        github.com/LiteLDev/LeviAntiCheat@0.1.1
-    ports:
-      - 19132:19132/udp
-    volumes:
-      - C:levilamina-server-data:C:/data
-    stdin_open: true
-    tty: true
-
-volumes:
-  levilamina-server-data:
-```
+We also provide Docker Compose files for both Linux and Windows containers at [wine/compose.yaml](wine/compose.yaml) and [windows/compose.yaml](windows/compose.yaml) respectively. To use them, download the file to an empty directory and run `docker compose up -d`.
 
 ### Environment variables
 

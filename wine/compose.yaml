@@ -1,0 +1,15 @@
+services:
+  levilamina-server:
+    image: ghcr.io/liteldev/levilamina-server:latest-wine
+    environment:
+      EULA: TRUE
+      VERSION: LATEST
+    ports:
+      - 19132:19132/udp
+    volumes:
+      - levilamina-server-data:/data
+    stdin_open: true
+    tty: true
+
+volumes:
+  levilamina-server-data:
