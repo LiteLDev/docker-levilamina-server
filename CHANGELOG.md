@@ -36,9 +36,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First release.
 
-[Unreleased]: https://github.com/LiteLDev/levilamina-docker-server/compare/v0.4.0...HEAD
-[0.4.0]: https://github.com/LiteLDev/levilamina-docker-server/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/LiteLDev/levilamina-docker-server/compare/v0.2.1...v0.3.0
-[0.2.1]: https://github.com/LiteLDev/levilamina-docker-server/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/LiteLDev/levilamina-docker-server/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/LiteLDev/levilamina-docker-server/releases/tag/v0.1.0
+[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/LiteLDev/docker-levilamina-server/releases/tag/v0.1.0

@@ -1,4 +1,4 @@
-# LeviLamina Server on Docker
+# docker-levilamina-server
 
 A docker image that provides a LeviLamina server that will automatically download selected version at startup 
 
@@ -12,7 +12,7 @@ docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/dat
 
 Or, if you want to use a Windows container, run the following command:
 
-```powershell
+```sh
 docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:C:\data ghcr.io/liteldev/levilamina-server:latest-windows
 ```
 
