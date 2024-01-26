@@ -16,14 +16,14 @@ export WINEDEBUG="${WINEDEBUG:--all}"
 if [ ! -f "bedrock_server_mod.exe" ]; then
     if [ "$VERSION" = "LATEST" ]
     then
-        wine64 lip.exe install -y github.com/LiteLDev/LeviLamina
+        lip install -y github.com/LiteLDev/LeviLamina
     else
-        wine64 lip.exe install -y github.com/LiteLDev/LeviLamina@$VERSION
+        lip install -y github.com/LiteLDev/LeviLamina@$VERSION
     fi
 
     for package in $PACKAGES
     do
-        wine64 lip.exe install -y $package
+        lip install -y $package
     done
 fi
 

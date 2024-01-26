@@ -1,7 +1,5 @@
 FROM debian:12-slim
 
-WORKDIR /data
-
 RUN apt update \
  && apt install -y \
         unzip \
@@ -16,10 +14,15 @@ RUN dpkg --add-architecture i386 \
  && apt install -y --install-recommends winehq-stable \
  && rm -rf /var/lib/apt/lists/*
 
-RUN wget -O lip-windows-amd64.zip https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip \
- && unzip lip-windows-amd64.zip lip.exe \
+ADD https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip lip-windows-amd64.zip
+
+RUN unzip lip-windows-amd64.zip -d /opt/lip/ \
  && rm lip-windows-amd64.zip
 
+COPY --chmod=755 lip /usr/local/bin/lip
+
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
+
+WORKDIR /data
 
 ENTRYPOINT ["entrypoint.sh"]

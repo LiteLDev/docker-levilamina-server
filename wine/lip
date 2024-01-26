@@ -1,0 +1,3 @@
+#! /usr/bin/env sh
+
+wine64 /opt/lip/lip.exe $@
