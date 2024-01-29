@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2024-01-29
+
+### Changed
+
+- Put lip files to `/opt`.
+- Use PowerShell to install Visual C++ Redistributable.
+
 ## [0.4.0] - 2024-01-24
 
 ### Changed
@@ -36,7 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First release.
 
-[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.2.0...v0.2.1
