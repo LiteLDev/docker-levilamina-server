@@ -1,12 +1,17 @@
-FROM ghcr.io/futrime/windows-servercore-vcredist:10.0.20348.2227-amd64
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
-WORKDIR /Users/ContainerUser/data
+RUN powershell -Command Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://vcredist.com/install.ps1'))
 
-ADD https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip /Users/ContainerUser/data/lip-windows-amd64.zip
+ADD https://github.com/lippkg/lip/releases/latest/download/lip-windows-amd64.zip lip-windows-amd64.zip
 
-RUN tar -x -f lip-windows-amd64.zip -v lip.exe \
- && del lip-windows-amd64.zip
+RUN mkdir "\Program Files\lip" \
+ && cd "\Program Files\lip" \
+ && tar -x -f \lip-windows-amd64.zip \
+ && del \lip-windows-amd64.zip \
+ && mklink \Windows\lip.exe "\Program Files\lip\lip.exe"
 
-COPY entrypoint.cmd /Users/ContainerUser/AppData/Local/entrypoint.cmd
+COPY entrypoint.cmd /Windows/entrypoint.cmd
 
-ENTRYPOINT ["/Users/ContainerUser/AppData/Local/entrypoint.cmd"]
+WORKDIR /data
+
+ENTRYPOINT ["entrypoint.cmd"]
