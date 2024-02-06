@@ -3,7 +3,6 @@ services:
     image: ghcr.io/liteldev/levilamina-server:latest-wine
     environment:
       EULA: TRUE
-      VERSION: LATEST
     ports:
       - 19132:19132/udp
     volumes:
