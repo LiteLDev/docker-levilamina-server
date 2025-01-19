@@ -12,7 +12,7 @@
 docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server:latest-wine
 ```
 ```sh
-podman run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e GO_MODULE_PROXY_URL=https://goproxy.cn -p 19132:19132/udp -v levilamina-server-data:/data ghcr.nju.edu.cn/liteldev/levilamina-server:latest-wine
+docker run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e GO_MODULE_PROXY_URL=https://goproxy.cn -p 19132:19132/udp -v levilamina-server-data:/data ghcr.nju.edu.cn/liteldev/levilamina-server:latest-wine
 ```
 
 或者，如果您想使用 Windows 容器，请运行第一条命令；如果您的服务器在中国大陆，请运行第二条命令以更快快速地安装：
