@@ -1,5 +1,7 @@
 # docker-levilamina-server
 
+[English](README.md) | 简体中文
+
 一个提供 LeviLamina 服务器的 Docker 镜像，服务器将会在启动时自动下载所选版本
 
 ## 使用方法
@@ -10,7 +12,7 @@
 docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server:latest-wine
 ```
 ```sh
-podman run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e GO_MODULE_PROXY_URL=https://goproxy.cn -p 19132:19132/udp -v levilamina-server-data:/data ghcr.io/liteldev/levilamina-server:latest-wine
+podman run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e GO_MODULE_PROXY_URL=https://goproxy.cn -p 19132:19132/udp -v levilamina-server-data:/data ghcr.nju.edu.cn/liteldev/levilamina-server:latest-wine
 ```
 
 或者，如果您想使用 Windows 容器，请运行第一条命令；如果您的服务器在中国大陆，请运行第二条命令以更快快速地安装：
@@ -19,7 +21,7 @@ podman run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e G
 docker run -d -it -e EULA=TRUE -p 19132:19132/udp -v levilamina-server-data:C:\data ghcr.io/liteldev/levilamina-server:latest-windows
 ```
 ```sh
-docker run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e GO_MODULE_PROXY_URL=https://goproxy.cn -p 19132:19132/udp -v levilamina-server-data:C:\data ghcr.io/liteldev/levilamina-server:latest-windows
+docker run -d -it -e EULA=TRUE -e GITHUB_MIRROR_URL=https://github.bibk.top -e GO_MODULE_PROXY_URL=https://goproxy.cn -p 19132:19132/udp -v levilamina-server-data:C:\data ghcr.nju.edu.cn/liteldev/levilamina-server:latest-windows
 ```
 
 我们还提供了适用于 Linux 和 Windows 容器的 Docker Compose 文件，分别位于 [wine/compose.yaml](wine/compose.yaml) 和 [windows/compose.yaml](windows/compose.yaml)。

@@ -1,5 +1,7 @@
 # docker-levilamina-server
 
+English | [简体中文](README.zh.md)
+
 A docker image that provides a LeviLamina server that will automatically download selected version at startup 
 
 ## Usage
