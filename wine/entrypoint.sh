@@ -36,4 +36,4 @@ then
     done
 fi
 
-wine64 bedrock_server_mod.exe
+cat | wine64 bedrock_server_mod.exe
