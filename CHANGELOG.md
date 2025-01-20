@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2025-01-20
+
+### Fixed
+
+- Fix LeviLamina 1.0.0 operation by installing vcredist
+
 ## [0.5.1] - 2025-01-19
 
 ### Fixed
