@@ -1,6 +1,6 @@
 # docker-levilamina-server
 
-[English](https://lamina.levimc.org/player_guides/install_on_docker/) | [简体中文]([README.zh.md](https://lamina.levimc.org/zh/player_guides/install_on_docker/))
+[English](https://lamina.levimc.org/player_guides/install_on_docker/) | [简体中文](https://lamina.levimc.org/zh/player_guides/install_on_docker/)
 
 A docker image that provides a LeviLamina server that will automatically download selected version at startup 
 
