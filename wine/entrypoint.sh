@@ -13,6 +13,9 @@ export WINEDEBUG="${WINEDEBUG:--all}"
 
 if [ ! -f "bedrock_server_mod.exe" ]
 then
+    winecfg
+    xvfb-run -a winetricks -q vcrun2022
+
     if [ "$GITHUB_MIRROR_URL" != "" ]
     then
         lip config GitHubMirrorURL $GITHUB_MIRROR_URL

@@ -14,8 +14,6 @@ RUN dpkg --add-architecture i386 \
        && apt update \
        && apt install -y --install-recommends winehq-stable \
        && apt install -y winetricks xvfb \
-       && winecfg \
-       && xvfb-run winetricks -q vcrun2022 \
        && apt clean \
        && rm -rf /var/lib/apt/lists/*
 
