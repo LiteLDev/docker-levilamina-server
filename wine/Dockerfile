@@ -4,6 +4,7 @@ RUN apt update \
        && apt install -y \
        unzip \
        wget \
+       && apt clean \
        && rm -rf /var/lib/apt/lists/*
 
 RUN dpkg --add-architecture i386 \
@@ -13,6 +14,10 @@ RUN dpkg --add-architecture i386 \
        && sed -i -e's/ main/ main contrib/g' /etc/apt/sources.list.d/debian.sources \
        && apt update \
        && apt install -y --install-recommends winehq-stable \
+       && apt clean \
+       && rm -rf /var/lib/apt/lists/*
+
+RUN apt update \
        && apt install -y winetricks xvfb \
        && apt clean \
        && rm -rf /var/lib/apt/lists/*
