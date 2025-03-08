@@ -11,22 +11,22 @@ if not "%EULA%"=="TRUE" (
 
 if not exist "bedrock_server_mod.exe" (
     if not "%GITHUB_MIRROR_URL%"=="" (
-        lip.exe config GitHubMirrorURL %GITHUB_MIRROR_URL%
+        lip.exe config set github_proxies=%GITHUB_MIRROR_URL%
     )
 
     if not "%GO_MODULE_PROXY_URL%"=="" (
-        lip.exe config GoModuleProxyURL %GO_MODULE_PROXY_URL%
+        lip.exe config set go_module_proxies=%GO_MODULE_PROXY_URL%
     )
 
     if "%VERSION%"=="LATEST" (
-        lip.exe install -y github.com/LiteLDev/LeviLamina
+        lip.exe install github.com/LiteLDev/LeviLamina
     ) else (
-        lip.exe install -y "github.com/LiteLDev/LeviLamina@%VERSION%"
+        lip.exe install "github.com/LiteLDev/LeviLamina@%VERSION%"
     )
 
     if not "%PACKAGES%"=="" (
         for %%P in (%PACKAGES%) do (
-            lip.exe install -y %%P
+            lip.exe install %%P
         )
     )
 )

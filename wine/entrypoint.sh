@@ -21,24 +21,24 @@ if [ ! -f "bedrock_server_mod.exe" ]
 then
     if [ "$GITHUB_MIRROR_URL" != "" ]
     then
-        lip config GitHubMirrorURL $GITHUB_MIRROR_URL
+        lip config set github_proxies=$GITHUB_MIRROR_URL
     fi
 
     if [ "$GO_MODULE_PROXY_URL" != "" ]
     then
-        lip config GoModuleProxyURL $GO_MODULE_PROXY_URL
+        lip config set go_module_proxies=$GO_MODULE_PROXY_URL
     fi
 
     if [ "$VERSION" = "LATEST" ]
     then
-        lip install -y github.com/LiteLDev/LeviLamina
+        lip install github.com/LiteLDev/LeviLamina
     else
-        lip install -y github.com/LiteLDev/LeviLamina@$VERSION
+        lip install github.com/LiteLDev/LeviLamina@$VERSION
     fi
 
     for package in $PACKAGES
     do
-        lip install -y $package
+        lip install $package
     done
 fi
 
