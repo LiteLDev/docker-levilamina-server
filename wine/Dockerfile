@@ -22,7 +22,7 @@ RUN apt update \
        && apt clean \
        && rm -rf /var/lib/apt/lists/*
 
-ADD https://github.com/futrime/lip/releases/latest/download/lip-win-x64.zip lip-win-x64.zip
+ADD https://github.com/futrime/lip/releases/latest/download/lip-cli-win-x64.zip lip-win-x64.zip
 
 RUN unzip lip-win-x64.zip -d /opt/lip/ \
        && rm lip-win-x64.zip
