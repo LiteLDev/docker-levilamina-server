@@ -22,10 +22,10 @@ RUN apt update \
        && apt clean \
        && rm -rf /var/lib/apt/lists/*
 
-ADD https://github.com/futrime/lip/releases/latest/download/lip-cli-win-x64.zip lip-win-x64.zip
+ADD https://github.com/futrime/lip/releases/latest/download/lip-cli-win-x64-self-contained.zip lip.zip
 
-RUN unzip lip-win-x64.zip -d /opt/lip/ \
-       && rm lip-win-x64.zip
+RUN unzip lip.zip -d /opt/lip/ \
+       && rm lip.zip
 
 COPY --chmod=755 lip /usr/local/bin/lip
 
