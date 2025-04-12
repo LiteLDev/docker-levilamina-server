@@ -17,29 +17,24 @@ fi
 
 export WINEDEBUG="${WINEDEBUG:--all}"
 
-if [ ! -f "bedrock_server_mod.exe" ]
-then
-    if [ "$GITHUB_MIRROR_URL" != "" ]
-    then
-        lip config set github_proxies=$GITHUB_MIRROR_URL
+if [ ! -f "bedrock_server_mod.exe" ]; then
+    if [ -n "$GITHUB_MIRROR_URL" ]; then
+        lip config set github_proxies="$GITHUB_MIRROR_URL"
     fi
 
-    if [ "$GO_MODULE_PROXY_URL" != "" ]
-    then
-        lip config set go_module_proxies=$GO_MODULE_PROXY_URL
+    if [ -n "$GO_MODULE_PROXY_URL" ]; then
+        lip config set go_module_proxies="$GO_MODULE_PROXY_URL"
     fi
 
-    if [ "$VERSION" = "LATEST" ]
-    then
+    if [ "$VERSION" = "LATEST" ]; then
         lip install github.com/LiteLDev/LeviLamina
     else
-        lip install github.com/LiteLDev/LeviLamina@$VERSION
+        lip install github.com/LiteLDev/LeviLamina@"$VERSION"
     fi
 
-    for package in $PACKAGES
-    do
-        lip install $package
-    done
+    if [ -n "$PACKAGES" ]; then
+        lip install $PACKAGES
+    fi
 fi
 
 cat | wine64 bedrock_server_mod.exe
