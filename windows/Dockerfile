@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2025@sha256:c84c293ed888ab62677e7c4354bb836f608be63353d31215f0276147888b24b9
+FROM mcr.microsoft.com/windows/servercore:ltsc2022@sha256:c7c591fe3a010bc641906723ad583ffe2fc14b472de6e6453ea26eaa3689d16e
 
 RUN powershell -Command Set-ExecutionPolicy Bypass -Scope Process -Force; \
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
