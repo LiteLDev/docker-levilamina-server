@@ -25,9 +25,7 @@ if not exist "bedrock_server_mod.exe" (
     )
 
     if not "%PACKAGES%"=="" (
-        for %%P in (%PACKAGES%) do (
-            lip.exe install %%P
-        )
+        lip.exe install %PACKAGES%
     )
 )
 
