@@ -16,6 +16,8 @@ RUN apt update \
  && apt install -y --install-recommends winehq-stable \
                                         winetricks \
                                         xvfb \
+                                        locales \
+                                        locales-all \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
