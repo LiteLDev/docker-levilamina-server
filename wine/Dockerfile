@@ -3,6 +3,8 @@ FROM debian:stable-slim@sha256:00a24d7c50ebe46934e31f6154c0434e2ab51259a65e028be
 RUN apt update \
  && apt install -y unzip \
                    wget \
+                   locales \
+                   locales-all \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
