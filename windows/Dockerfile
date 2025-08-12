@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022@sha256:c7c591fe3a010bc6419067
 
 RUN powershell -Command Set-ExecutionPolicy Bypass -Scope Process -Force; \
     [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
-    iex ((New-Object System.Net.WebClient).DownloadString('https://vcredist.com/install.ps1'))
+    iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/aaronparker/vcredist/refs/heads/gh-pages/install.ps1'))
 
 ADD https://github.com/futrime/lip/releases/latest/download/lip-cli-win-x64-self-contained.zip lip.zip
 
@@ -17,3 +17,4 @@ COPY entrypoint.cmd /Windows/entrypoint.cmd
 WORKDIR /data
 
 ENTRYPOINT ["entrypoint.cmd"]
+
