@@ -48,4 +48,4 @@ if [ ! -f "bedrock_server_mod.exe" ]; then
     fi
 fi
 
-(cat | wine64 bedrock_server_mod.exe) 2>/dev/null
+(cat | wine bedrock_server_mod.exe) 2>/dev/null
