@@ -31,3 +31,11 @@ We also provide Docker Compose files for both Linux and Windows containers at [w
 - `PACKAGES`: can be set to a space-separated list of packages to install on first run. Each package must be a valid [lip specifier](https://lip.levimc.org/zh/user-guide/commands/lip-install/). Both local and remote lip teeth are supported. For local packages, you may need to mount the packages to the container.
 
 - `VERSION` (`LATEST`): can be set to a specific [LeviLamina](https://github.com/LiteLDev/LeviLamina/tags) version or `LATEST` to automatically download the latest version.
+
+- `WINEDEBUG` (`-all`): can be set to customize the Wine debug output. See [Wine Debugging](https://wiki.winehq.org/Debugging) for more information.
+
+- `LANG`: can be set to customize the locale used in the container. Default is `en_US.UTF-8`.
+
+- `LC_ALL`: can be set to customize the locale used in the container. Default is `en_US.UTF-8`.
+
+- `TZ`: can be set to customize the timezone used in the container. Default is `UTC`.

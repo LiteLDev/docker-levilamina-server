@@ -15,9 +15,9 @@ RUN dpkg --add-architecture i386 \
  && sed -i -e's/ main/ main contrib/g' /etc/apt/sources.list.d/debian.sources
 
 RUN apt update \
- && apt install -y --install-recommends winehq-stable \
-                                        winetricks \
-                                        xvfb \
+ && apt install -y --install-recommends winehq-stable xvfb \
+ && wget -O /usr/bin/winetricks https://github.com/Winetricks/winetricks/raw/32c2e44d5ed7c73336d586dd259021498e82f080/src/winetricks \
+ && chmod +x /usr/bin/winetricks \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 

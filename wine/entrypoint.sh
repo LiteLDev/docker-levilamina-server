@@ -1,5 +1,11 @@
 #! /usr/bin/env sh
 
+stty size cols 80
+
+export HOME=/data
+export WINEPREFIX=/data/.wine
+export XDG_RUNTIME_DIR=/data/.tmp
+
 VERSION="${VERSION:-LATEST}"
 
 if [ "$EULA" != "TRUE" ]
@@ -9,7 +15,12 @@ then
     exit 1
 fi
 
-if [ ! -d "/root/.wine" ]
+if [ ! -d "/data/.tmp" ]
+then
+    mkdir -p /data/.tmp
+fi
+
+if [ ! -d "/data/.wine" ]
 then
     winecfg
     xvfb-run -a winetricks -q vcrun2022
@@ -37,4 +48,4 @@ if [ ! -f "bedrock_server_mod.exe" ]; then
     fi
 fi
 
-cat | wine64 bedrock_server_mod.exe
+(cat | wine64 bedrock_server_mod.exe) 2>/dev/null
