@@ -1,6 +1,10 @@
 FROM debian:stable-slim@sha256:99fc6d2a0882fcbcdc452948d2d54eab91faafc7db037df82425edcdcf950e1f
 
-ENV LIP_VERSION=0.34.4
+ENV HOME=/data
+ENV WINEPREFIX=/data/.wine
+ENV XDG_RUNTIME_DIR=/data/.tmp
+
+ARG LIP_VERSION=0.34.4
 
 RUN apt update \
     && apt install -y unzip \

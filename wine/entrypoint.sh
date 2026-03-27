@@ -2,10 +2,6 @@
 
 stty size cols 80
 
-export HOME=/data
-export WINEPREFIX=/data/.wine
-export XDG_RUNTIME_DIR=/data/.tmp
-
 VERSION="${VERSION:-LATEST}"
 
 if [ "$EULA" != "TRUE" ]
