@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Replaced ENV with ARG for LIP_VERSION
+- (Wine)Disable WINEDEBUG for lip by default
 
 ### Fixed
 
