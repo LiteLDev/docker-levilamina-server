@@ -19,8 +19,12 @@ fi
 if [ ! -d "/data/.wine" ]
 then
     winecfg
-    xvfb-run -a winetricks -q dotnet10
     xvfb-run -a winetricks -q vcrun2026
+fi
+
+if [ ! -d "/data/.wine/drive_c/Program Files/dotnet" ]
+then
+    xvfb-run -a winetricks -q dotnet10
 fi
 
 export WINEDEBUG="${WINEDEBUG:--all}"
