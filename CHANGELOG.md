@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.4] - 2026-03-27
+
 ### Changed
 
-- Updated Windows Server Core
+- (Windows)Updated Windows Server Core
+- (Wine)Bumped vcrun2022 to vcrun2026
 
 ## [0.8.3] - 2026-03-27
 
@@ -159,6 +162,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First release.
 
+[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.4...HEAD
+[0.8.4]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.3...v0.8.4
 [0.8.3]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.2...v0.8.3
 [0.8.2]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.0...v0.8.2
 [0.8.0]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.7.4...v0.8.0

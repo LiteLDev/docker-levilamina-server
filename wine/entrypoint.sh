@@ -20,7 +20,7 @@ if [ ! -d "/data/.wine" ]
 then
     winecfg
     xvfb-run -a winetricks -q dotnet10
-    xvfb-run -a winetricks -q vcrun2022
+    xvfb-run -a winetricks -q vcrun2026
 fi
 
 export WINEDEBUG="${WINEDEBUG:--all}"
