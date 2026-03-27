@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2022@sha256:c7c591fe3a010bc641906723ad583ffe2fc14b472de6e6453ea26eaa3689d16e
+FROM mcr.microsoft.com/windows/servercore:ltsc2022@sha256:d4c6d1a8a1a306b12691c3b2e5e3a8bfad786cbd6b7831cd74a9a6a99eab08ad
 
 ARG LIP_VERSION=0.34.4
 
