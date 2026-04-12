@@ -4,7 +4,7 @@ ENV HOME=/data
 ENV WINEPREFIX=/data/.wine
 ENV XDG_RUNTIME_DIR=/data/.tmp
 
-ARG LIP_VERSION=0.34.4
+ARG LIP_VERSION=0.34.5
 
 RUN apt update \
     && apt install -y unzip \
