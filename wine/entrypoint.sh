@@ -34,10 +34,6 @@ if [ ! -f "bedrock_server_mod.exe" ]; then
         lip config set github_proxy "$GITHUB_MIRROR_URL"
     fi
     
-    if [ -n "$GO_MODULE_PROXY_URL" ]; then
-        lip config set go_module_proxy "$GO_MODULE_PROXY_URL"
-    fi
-    
     if [ "$VERSION" = "LATEST" ]; then
         lip install github.com/LiteLDev/LeviLamina
     else

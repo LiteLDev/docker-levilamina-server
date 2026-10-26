@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- `GO_MODULE_PROXY_URL`: lip no longer has a `go_module_proxy` setting (use `GITHUB_MIRROR_URL`)
+
 ## [0.8.7] - 2026-04-14
 
 ### Changed

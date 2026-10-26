@@ -26,10 +26,6 @@ if not exist "bedrock_server_mod.exe" (
         lip.exe config set github_proxy %GITHUB_MIRROR_URL%
     )
 
-    if not "%GO_MODULE_PROXY_URL%"=="" (
-        lip.exe config set go_module_proxy %GO_MODULE_PROXY_URL%
-    )
-
     if "%VERSION%"=="LATEST" (
         lip.exe install github.com/LiteLDev/LeviLamina
     ) else (
