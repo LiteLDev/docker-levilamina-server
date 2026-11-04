@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.9] - 2026-11-05
+
+### Changed
+
+- Bumped lip to v0.37.0
+
 ## [0.8.8] - 2026-11-04
 
 ### Removed
@@ -186,7 +192,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First release.
 
-[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.8...HEAD
+[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.9...HEAD
+[0.8.9]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.8...v0.8.9
 [0.8.8]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.7...v0.8.8
 [0.8.7]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.6...v0.8.7
 [0.8.6]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.5...v0.8.6
