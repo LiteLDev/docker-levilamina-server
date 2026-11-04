@@ -30,12 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - id: get-version
-        uses: frabert/replace-string-action@v2
-        with:
-          pattern: '^v'
-          string: ${{ github.event.release.tag_name }}
-          replace-with: ''
+      - name: Remove v from tag
+        id: version
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - uses: docker/login-action@v4
         with:
@@ -48,12 +48,12 @@ jobs:
 
       - name: Tag image
         run: |
-          docker tag artifact ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
+          docker tag artifact ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-windows
           docker tag artifact ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-windows
 
       - name: Push to GitHub Packages
         run: |
-          docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-windows
+          docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-windows
           docker push ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-windows
 
   publish-wine:
@@ -63,12 +63,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - id: get-version
-        uses: frabert/replace-string-action@v2
-        with:
-          pattern: '^v'
-          string: ${{ github.event.release.tag_name }}
-          replace-with: ''
+      - name: Remove v from tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - uses: docker/login-action@v4
         with:
@@ -81,5 +80,5 @@ jobs:
           context: wine
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.get-version.outputs.replaced }}-wine
+            ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-wine
             ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ env.IMAGE_NAME }}:latest-wine
