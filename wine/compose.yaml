@@ -5,6 +5,7 @@ services:
       EULA: TRUE
     ports:
       - 19132:19132/udp
+      - 19132:19132/tcp
     volumes:
       - levilamina-server-data:/data
     stdin_open: true
