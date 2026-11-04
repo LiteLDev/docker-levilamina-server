@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.8] - 2026-11-04
+
 ### Removed
 
 - `GO_MODULE_PROXY_URL`: lip no longer has a `go_module_proxy` setting (use `GITHUB_MIRROR_URL`)
@@ -184,7 +186,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 First release.
 
-[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.7...HEAD
+[Unreleased]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.8...HEAD
+[0.8.8]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.7...v0.8.8
 [0.8.7]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.6...v0.8.7
 [0.8.6]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.5...v0.8.6
 [0.8.5]: https://github.com/LiteLDev/docker-levilamina-server/compare/v0.8.4...v0.8.5
