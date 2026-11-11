@@ -1,0 +1,16 @@
+on:
+  push:
+    branches: [feat/lip-0.41]
+jobs:
+  debug-wine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker build wine -t dbg
+      - run: |
+          set -x
+          docker run --rm --entrypoint sh dbg -c 'cat /etc/os-release | head -3; wine --version; ls -l $(readlink -f $(which wine)); file -L $(which wine) || true; ls /opt/wine-stable/bin; dpkg -l | grep -i wine' || true
+          docker run --rm --entrypoint sh dbg -c 'WINEDEBUG=-all wineboot --init; echo exit=$?' || true
+          docker run --rm --security-opt seccomp=unconfined --entrypoint sh dbg -c 'WINEDEBUG=-all wineboot --init; echo exit=$?; wineserver -w' || true
+          docker run --rm -e HOME=/root -e WINEPREFIX=/root/.wine -e XDG_RUNTIME_DIR= --entrypoint sh dbg -c 'WINEDEBUG=-all wineboot --init; echo exit=$?' || true
+          docker run --rm --entrypoint sh dbg -c 'apt-get update -qq >/dev/null && apt-get install -y -qq strace >/dev/null; strace -f -e trace=socket,socketcall,socketpair,connect,bind wine wineboot --init 2>&1 | grep -E "socket|connect|bind|ENOSYS" | head -40' || true
