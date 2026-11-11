@@ -1,29 +1,32 @@
 #! /usr/bin/env bash
-# Checks that every mod installed in the container's /data/mods was loaded by LeviLamina, as its log
-# says, and that the log reports no error.
+# Checks the log of a container after the server started: every mod in /data/mods was loaded and
+# enabled by LeviLamina, and nothing was logged as an error.
 #
 # Usage: test/check-mods.sh <container>
 
 set -euo pipefail
 
 NAME="$1"
-LOG="$(docker logs "$NAME" 2>&1)"
+LOG="$(docker logs "$NAME" 2>&1 | sed 's/\x1b\[[0-9;]*m//g')"
 
 mapfile -t MODS < <(docker exec "$NAME" sh -c 'for d in /data/mods/*/; do basename "$d"; done')
 echo "Mods: ${MODS[*]}"
 [ "${#MODS[@]}" -gt 1 ] || { echo "::error::No mod is installed."; exit 1; }
 
-missing=0
+bad=0
 for mod in "${MODS[@]}"; do
-    if ! grep -qiE "$(printf '%s' "$mod" | sed 's/[.[\*^$()+?{|]/\\&/g').*(loaded|enabled)|(loaded|enabled).*$(printf '%s' "$mod" | sed 's/[.[\*^$()+?{|]/\\&/g')" <<<"$LOG"; then
-        echo "::error::The log does not show that $mod was loaded."
-        missing=1
-    fi
+    # LeviLamina is the loader; it loads every other mod.
+    [ "$mod" = LeviLamina ] && continue
+    grep -qF "[LeviLamina] $mod loaded" <<<"$LOG" \
+        || { echo "::error::LeviLamina did not load $mod."; bad=1; }
+    grep -qE "\[LeviLamina\] Enabling $mod v" <<<"$LOG" \
+        || { echo "::error::LeviLamina did not enable $mod."; bad=1; }
 done
 
-if grep -E '\b(ERROR|FATAL)\b|[Ff]ailed to load' <<<"$LOG"; then
-    echo "::error::The log reports errors."
-    missing=1
+# Log levels: LeviLamina writes ERR and FTL, PreLoader ERROR and FATAL.
+if grep -E '^[0-9:.]+ +(ERR|FTL|ERROR|FATAL) ' <<<"$LOG"; then
+    echo "::error::The log has errors."
+    bad=1
 fi
 
-exit "$missing"
+exit "$bad"

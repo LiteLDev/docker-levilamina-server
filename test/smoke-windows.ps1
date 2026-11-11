@@ -20,7 +20,7 @@ function Fail([string]$Message) {
   throw $Message
 }
 
-function Get-Log { (docker logs $Name 2>&1 | Out-String) }
+function Get-Log { (docker logs $Name 2>&1 | Out-String) -replace "`e\[[0-9;]*m", '' }
 
 function Wait-ForLog([int]$Count, [string]$Pattern, [int]$Timeout) {
   $watch = [Diagnostics.Stopwatch]::StartNew()
@@ -42,13 +42,19 @@ function Test-Mods {
   if ($mods.Count -le 1) { Fail 'No mod is installed.' }
   $bad = $false
   foreach ($mod in $mods) {
-    $m = [regex]::Escape($mod)
-    if ($log -notmatch "(?i)$m.*(loaded|enabled)|(loaded|enabled).*$m") {
-      Write-Output "::error::The log does not show that $mod was loaded."
+    # LeviLamina is the loader; it loads every other mod.
+    if ($mod -eq 'LeviLamina') { continue }
+    if (-not $log.Contains("[LeviLamina] $mod loaded")) {
+      Write-Output "::error::LeviLamina did not load $mod."
+      $bad = $true
+    }
+    if (-not $log.Contains("[LeviLamina] Enabling $mod v")) {
+      Write-Output "::error::LeviLamina did not enable $mod."
       $bad = $true
     }
   }
-  $errors = $log -split "`n" | Where-Object { $_ -cmatch '\b(ERROR|FATAL)\b|[Ff]ailed to load' }
+  # Log levels: LeviLamina writes ERR and FTL, PreLoader ERROR and FATAL.
+  $errors = $log -split "`n" | Where-Object { $_ -cmatch '^[0-9:.]+ +(ERR|FTL|ERROR|FATAL) ' }
   if ($errors) {
     $errors | Write-Output
     Write-Output '::error::The log reports errors.'
@@ -98,7 +104,7 @@ try {
   Write-Output '::group::First start: install and run'
   docker volume create $Name | Out-Null
   docker run -d --isolation=hyperv --name $Name -e EULA=TRUE -e "PACKAGES=$($Packages -join ' ')" -v "${Name}:C:\data" $Image | Out-Null
-  Wait-ForLog 1 'Server started\.' $InstallTimeout
+  Wait-ForLog 1 'Server started in' $InstallTimeout
   Write-Output '::endgroup::'
 
   Write-Output '::group::Installed packages'
@@ -110,6 +116,10 @@ try {
       Fail "$package is not explicitly installed."
     }
   }
+  Write-Output '::endgroup::'
+
+  Write-Output '::group::Links in the volume (diagnostic)'
+  docker exec $Name cmd /c "whoami & mklink /J C:\data\probe-junction C:\data\mods & mklink /D C:\data\probe-symlink C:\data\mods & mklink /J C:\probe-junction C:\data\mods & dir C:\data" 2>&1 | Write-Output
   Write-Output '::endgroup::'
 
   Write-Output '::group::Loaded mods'
@@ -126,7 +136,7 @@ try {
 
   Write-Output '::group::Second start: reuse the installation'
   docker start $Name | Out-Null
-  Wait-ForLog 2 'Server started\.' $StartTimeout
+  Wait-ForLog 2 'Server started in' $StartTimeout
   Test-Mods
   Test-Ping
   Stop-Server 2

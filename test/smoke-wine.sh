@@ -60,13 +60,14 @@ exec 3<>"$WORK/console"
 
 echo "::group::First start: install and run"
 docker volume create "$VOLUME" >/dev/null
-docker run -i --name "$NAME" \
+docker create -i --name "$NAME" \
     -e EULA=TRUE \
     -e PACKAGES="${PACKAGES[*]}" \
     -p 127.0.0.1:19132:19132/udp \
     -v "$VOLUME:/data" \
-    "$IMAGE" <&3 >/dev/null 2>&1 &
-wait_for_log 1 'Server started\.' "$INSTALL_TIMEOUT"
+    "$IMAGE" >/dev/null
+docker start -ai "$NAME" <&3 >/dev/null 2>&1 &
+wait_for_log 1 'Server started in' "$INSTALL_TIMEOUT"
 echo "::endgroup::"
 
 echo "::group::Installed packages"
@@ -102,7 +103,7 @@ echo "::endgroup::"
 
 echo "::group::Second start: reuse the installation"
 docker start "$NAME" >/dev/null
-wait_for_log 2 'Server started\.' "$START_TIMEOUT"
+wait_for_log 2 'Server started in' "$START_TIMEOUT"
 "$DIR/check-mods.sh" "$NAME"
 python3 "$DIR/raknet_ping.py" 127.0.0.1 19132 60 || fail "The server does not answer on UDP 19132 after a restart."
 docker stop -t 120 "$NAME" >/dev/null

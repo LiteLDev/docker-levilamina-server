@@ -1,12 +1,16 @@
 FROM debian:stable-slim@sha256:99fc6d2a0882fcbcdc452948d2d54eab91faafc7db037df82425edcdcf950e1f
 
 ARG LIP_VERSION=0.41.0-beta.1
+ARG PYTHON_VERSION=3.12.10
 
 ENV HOME=/data
 ENV WINEPREFIX=/data/.wine
 ENV XDG_RUNTIME_DIR=/data/.tmp
 ENV DOTNET_ROOT=/usr/share/dotnet
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
+# Wine adds WINEPATH to the PATH of Windows programs: the Python engine of LegacyScriptEngine finds
+# Python there.
+ENV WINEPATH=Z:\\opt\\python
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -14,6 +18,7 @@ RUN apt-get update \
     libicu-dev \
     locales \
     locales-all \
+    unzip \
     wget \
     xz-utils \
     && apt-get clean \
@@ -41,6 +46,13 @@ RUN wget -qO /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh \
     | tar -xJ -C /opt/lip \
     && ln -s /opt/lip/lip /usr/local/bin/lip \
     && lip --version
+
+# The Python engine of LegacyScriptEngine loads python312.dll and the standard library of a Windows
+# Python 3.12 found through PATH.
+RUN wget -qO /tmp/python.zip "https://www.nuget.org/api/v2/package/python/${PYTHON_VERSION}" \
+    && unzip -q /tmp/python.zip 'tools/*' -d /tmp/python \
+    && mv /tmp/python/tools /opt/python \
+    && rm -rf /tmp/python /tmp/python.zip
 
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
