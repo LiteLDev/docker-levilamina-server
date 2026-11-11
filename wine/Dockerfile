@@ -1,41 +1,52 @@
 FROM debian:stable-slim@sha256:99fc6d2a0882fcbcdc452948d2d54eab91faafc7db037df82425edcdcf950e1f
 
+ARG LIP_VERSION=0.41.0-beta.1
+
 ENV HOME=/data
 ENV WINEPREFIX=/data/.wine
 ENV XDG_RUNTIME_DIR=/data/.tmp
+ENV DOTNET_ROOT=/usr/share/dotnet
+ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 
-ARG LIP_VERSION=0.37.0
-
-RUN apt update \
-    && apt install -y unzip \
-    wget \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libicu-dev \
     locales \
     locales-all \
-    && apt clean \
+    wget \
+    xz-utils \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN dpkg --add-architecture i386 \
+# The WineHQ repository of the Debian release of the base image.
+RUN . /etc/os-release \
+    && dpkg --add-architecture i386 \
     && mkdir -pm755 /etc/apt/keyrings \
-    && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
-    && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources \
-    && sed -i -e's/ main/ main contrib/g' /etc/apt/sources.list.d/debian.sources
-
-RUN apt update \
-    && apt install -y --install-recommends winehq-stable xvfb cabextract \
-    && wget -O /usr/bin/winetricks https://github.com/Winetricks/winetricks/raw/b792287f5bec9086916aa9b81788e0ea38f02c24/src/winetricks \
+    && wget -qO /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
+    && wget -qNP /etc/apt/sources.list.d/ "https://dl.winehq.org/wine-builds/debian/dists/${VERSION_CODENAME}/winehq-${VERSION_CODENAME}.sources" \
+    && apt-get update \
+    && apt-get install -y --install-recommends winehq-stable xvfb xauth cabextract \
+    && wget -qO /usr/bin/winetricks https://github.com/Winetricks/winetricks/raw/b792287f5bec9086916aa9b81788e0ea38f02c24/src/winetricks \
     && chmod +x /usr/bin/winetricks \
-    && apt clean \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ADD https://github.com/LiteLDev/lip/releases/download/v${LIP_VERSION}/lip-${LIP_VERSION}-win-x64.zip lip.zip
-
-RUN unzip lip.zip -d /opt/lip/ \
-    && rm lip.zip
-
-COPY --chmod=755 lip /usr/local/bin/lip
+# lip runs natively; it runs the hooks of packages and the server through Wine.
+RUN wget -qO /tmp/dotnet-install.sh https://dot.net/v1/dotnet-install.sh \
+    && bash /tmp/dotnet-install.sh --channel 10.0 --runtime dotnet --install-dir "$DOTNET_ROOT" \
+    && rm /tmp/dotnet-install.sh \
+    && mkdir -p /opt/lip \
+    && wget -qO- "https://github.com/LiteLDev/lip/releases/download/v${LIP_VERSION}/lip-${LIP_VERSION}-linux-x64.tar.xz" \
+    | tar -xJ -C /opt/lip \
+    && ln -s /opt/lip/lip /usr/local/bin/lip \
+    && lip --version
 
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
 WORKDIR /data
+
+# lip run sends "stop" to the server when it receives SIGTERM, and exits when the server does.
+STOPSIGNAL SIGTERM
 
 ENTRYPOINT ["entrypoint.sh"]

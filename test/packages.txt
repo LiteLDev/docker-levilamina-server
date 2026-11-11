@@ -1,0 +1,10 @@
+# Packages that the smoke tests install besides LeviLamina, one per line: the common LiteLDev
+# components. The tests check that each one is installed and that its mod is loaded.
+github.com/LiteLDev/LegacyScriptEngine
+github.com/LiteLDev/LegacyScriptEngine#nodejs
+github.com/LiteLDev/LegacyScriptEngine#python
+github.com/LiteLDev/LegacyMoney
+github.com/LiteLDev/LegacyRemoteCall
+github.com/LiteLDev/iListenAttentively
+github.com/LiteLDev/LeviAntiCheat
+github.com/LiteLDev/LeviOptimize

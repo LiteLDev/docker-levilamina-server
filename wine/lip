@@ -1,3 +1,0 @@
-#! /usr/bin/env sh
-
-WINEDEBUG="${WINEDEBUG:--all}" wine /opt/lip/lip.exe $@

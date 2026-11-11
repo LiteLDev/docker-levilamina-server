@@ -1,48 +1,39 @@
 #! /usr/bin/env sh
 
-stty size cols 80
+set -e
 
 VERSION="${VERSION:-LATEST}"
 
-if [ "$EULA" != "TRUE" ]
-then
+if [ "$EULA" != "TRUE" ]; then
     echo "You must accept the Minecraft EULA to run the server"
     echo "Set the environment variable EULA to TRUE to accept it"
     exit 1
 fi
 
-if [ ! -d "/data/.tmp" ]
-then
-    mkdir -p /data/.tmp
-fi
+mkdir -p "$XDG_RUNTIME_DIR"
 
-if [ ! -d "/data/.wine" ]
-then
-    winecfg
-    xvfb-run -a winetricks -q vcrun2026
+# The Visual C++ runtime that LeviLamina and the server need. winetricks lists the verbs it
+# installed in winetricks.log, which also covers prefixes created by earlier images.
+if ! grep -qx vcrun2026 "$WINEPREFIX/winetricks.log" 2>/dev/null; then
+    WINEDEBUG=-all wineboot --init
+    WINEDEBUG=-all xvfb-run -a winetricks -q vcrun2026
+    wineserver --wait
 fi
-
-if [ ! -d "/data/.wine/drive_c/Program Files/dotnet" ]
-then
-    xvfb-run -a winetricks -q dotnet10
-fi
-
-export WINEDEBUG="${WINEDEBUG:--all}"
 
 if [ ! -f "bedrock_server_mod.exe" ]; then
     if [ -n "$GITHUB_MIRROR_URL" ]; then
         lip config set github_proxy "$GITHUB_MIRROR_URL"
     fi
-    
+
     if [ "$VERSION" = "LATEST" ]; then
-        lip install github.com/LiteLDev/LeviLamina
+        LEVILAMINA="github.com/LiteLDev/LeviLamina"
     else
-        lip install github.com/LiteLDev/LeviLamina@"$VERSION"
+        LEVILAMINA="github.com/LiteLDev/LeviLamina@$VERSION"
     fi
-    
-    if [ -n "$PACKAGES" ]; then
-        lip install $PACKAGES
-    fi
+
+    # PACKAGES is a whitespace-separated list of packages.
+    # shellcheck disable=SC2086
+    lip install "$LEVILAMINA" $PACKAGES
 fi
 
-(cat | wine bedrock_server_mod.exe) 2>/dev/null
+exec lip run

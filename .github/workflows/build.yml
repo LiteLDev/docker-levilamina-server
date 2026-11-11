@@ -1,22 +1,41 @@
+# Builds both images and runs the smoke tests (test/): a passing run means that each image installs
+# LeviLamina and the packages of test/packages.txt, starts the server with every mod loaded, answers
+# on UDP 19132, stops cleanly and starts again.
 on:
   pull_request:
   push:
   workflow_dispatch:
+  workflow_call:
+  schedule:
+    # Weekly, to catch new releases of LeviLamina and its packages.
+    - cron: '0 3 * * 1'
+
+permissions:
+  contents: read
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v7
-
-      - run: |
-          docker build windows
-
-  build-wine:
+  test-wine:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
 
       - uses: docker/build-push-action@v7
         with:
           context: wine
+          load: true
+          tags: levilamina-server:test-wine
+
+      - run: test/smoke-wine.sh levilamina-server:test-wine
+
+  test-windows:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+
+      - run: docker build windows -t levilamina-server:test-windows
+
+      - run: test/smoke-windows.ps1 levilamina-server:test-windows

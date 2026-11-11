@@ -9,6 +9,8 @@ services:
     volumes:
       - levilamina-server-data:/data
     stdin_open: true
+    # lip run sends "stop" to the server on docker stop; give the server time to save the world.
+    stop_grace_period: 2m
     tty: true
 
 volumes:
