@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-17
+
+### Changed
+
+- Bumped lip to v0.41.0
+- The Wine image runs the Linux build of lip natively. lip installs its own Wine and the Visual C++ runtime into the
+  volume on the first start, so the image no longer contains Wine, winetricks, Xvfb or .NET, and the Wine prefix is
+  `/data/.lip/wine` (the old `/data/.wine` is no longer used and can be deleted)
+- Both images set the server up with `lip install --accept-eula` and run it with `lip run`: `docker stop` now types
+  `stop` into the server, which saves the world and exits
+- The Windows image no longer installs the .NET runtime (lip is self-contained)
+- The compose files give the server one minute to stop (`stop_grace_period`)
+- A server that an earlier Wine image set up is migrated on its first start: `lip setup` with its game and LeviLamina
+  version turns its `tooth_lock.json` into the state file of lip v0.41, keeping the worlds, the settings and the mods
+
+### Removed
+
+- The `lip` wrapper script of the Wine image: `lip` is the native Linux build
+
 ## [0.8.9] - 2026-11-05
 
 ### Changed

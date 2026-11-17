@@ -8,6 +8,7 @@ services:
       - 19132:19132/tcp
     volumes:
       - levilamina-server-data:C:\data
+    stop_grace_period: 1m
     stdin_open: true
     tty: true
 
