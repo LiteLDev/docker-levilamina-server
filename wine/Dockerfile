@@ -6,8 +6,8 @@ FROM debian:stable-slim@sha256:99fc6d2a0882fcbcdc452948d2d54eab91faafc7db037df82
 # server, both in the volume /data, so a second start downloads nothing.
 ENV HOME=/data
 
-ARG LIP_VERSION=0.41.0
-ARG LIP_SHA256=92ce9e4c79c45bb1c6f9b2d59abbc02b9ad1612af8566777c09e0ab43cb08c99
+ARG LIP_VERSION=0.41.1
+ARG LIP_SHA256=050e699482cbef6213bd80a3ae429688518f93ed5ad3381efb41bd974a0200e9
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
